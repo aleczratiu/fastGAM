@@ -27,6 +27,10 @@ const UserType = new GraphQLObjectType({
         updatedAt: {
             type: GraphQLString,
             description: "A user's updatedAt."
+        },
+        sessionToken: {
+            type: GraphQLString,
+            description: "A user's sessionToken."
         }
     }
 })

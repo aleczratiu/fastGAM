@@ -26,8 +26,14 @@ const addUser = {
         // bcrypt password from args
         user.password = await user.cryptPassword(args.password);
 
-        user.save();
-        return user;
+        // create session Token
+        const sessionToken = await user.generateToken();
+
+        await user.save();
+        return {
+            user,
+            sessionToken
+        };
     }
 }
 

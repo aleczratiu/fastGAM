@@ -19,8 +19,7 @@ const createSessionToken = {
     resolve: async(parent, { email, password }, { mongo: { User } }) => {
         const user = await User.findOne({ email });
 
-        console.log('email', email);
-        console.log('password', password);
+        console.log('user', user);
 
         if (!user) {
             throw new NotFoundError({
@@ -33,6 +32,10 @@ const createSessionToken = {
                 message: 'Invalid password',
             });
         };
+
+        const sessionToken = await user.generateToken();
+
+        user.sessionToken = sessionToken;
 
         return user;
     }
