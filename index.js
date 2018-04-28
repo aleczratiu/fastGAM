@@ -2,7 +2,7 @@ import express from 'express';
 import expressGraphQL from 'express-graphql';
 import schema from './graphql/schema';
 import mongoose from 'mongoose';
-import mongoModel from './database/';
+import mongoModel from './database';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 

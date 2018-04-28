@@ -22,8 +22,14 @@ const UserSchema = new mongoose.Schema({
 });
 
 // define method bcrypt password
-UserSchema.methods.cryptPassword = async (password) => {
+UserSchema.methods.cryptPassword = async function cryptPassword(password) {
     return bcrypt.hashSync(password, 10);
 }
+
+
+// compare password bcrypt
+UserSchema.methods.checkPassword = async function checkPassword(password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 export default mongoose.model('User', UserSchema);

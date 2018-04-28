@@ -3,6 +3,7 @@ import {
     GraphQLNonNull
 } from 'graphql';
 import UserType from '../UserType';
+import NotFoundError from '../../../../utils/errors/NotFoundError';
 
 const User = {
     type: UserType,
@@ -10,13 +11,18 @@ const User = {
         email: {
             type: GraphQLNonNull(GraphQLString)
         },
+        password: {
+            type: GraphQLNonNull(GraphQLString)
+        },
     },
     resolve: async (parent, args, { mongo: { User } }) => {
         const user = await User.findOne({ email: args.email});
 
         if(!user) {
-            return null;
-        }
+            throw new NotFoundError({
+                message: 'Not found this email',
+            });
+        };
 
         return user;
     }

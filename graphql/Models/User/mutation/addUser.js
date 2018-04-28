@@ -1,7 +1,7 @@
 import UserType from '../UserType';
 import {
     GraphQLString,
-    GraphQLNonNull
+    GraphQLNonNull,
 } from 'graphql';
 
 const addUser = {
@@ -21,10 +21,6 @@ const addUser = {
         },
     },
     resolve: async(parent, args, { mongo: { User } }) => {
-        console.log('in resolver');
-        console.log('args', args);
-        console.log('User', User(args));
-
         const user = await new User(args);
 
         // bcrypt password from args
