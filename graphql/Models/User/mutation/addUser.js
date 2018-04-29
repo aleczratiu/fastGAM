@@ -3,6 +3,8 @@ import {
     GraphQLString,
     GraphQLNonNull,
 } from 'graphql';
+import sendMail from '../../../../utils/mail';
+import InternalServerError from '../../../../utils/errors/InternalServerError';
 
 const addUser = {
     type: UserType,
@@ -29,7 +31,29 @@ const addUser = {
         // create session Token
         const sessionToken = await user.generateToken();
 
-        await user.save();
+        // await user.save();
+
+        try {
+            sendMail({
+                to: user.email,
+                from: 'contact@raulratiu.me',
+                subject: 'Welcome to MyProject',
+                context:
+                    {
+                        templateName: '/register/',
+                        args: {
+                            email: user.email,
+                            title: 'Welcome',
+                        },
+
+                    },
+            });
+        } catch (e) {
+            throw new InternalServerError({
+                message: e.message,
+            });
+        }
+
         return {
             user,
             sessionToken
