@@ -31,7 +31,7 @@ const addUser = {
         // create session Token
         const sessionToken = await user.generateToken();
 
-        // await user.save();
+        await user.save();
 
         try {
             sendMail({
