@@ -12,6 +12,14 @@ const UserType = new GraphQLObjectType({
             type: GraphQLID,
             description: "A user's id.",
         },
+        firstName: {
+            type: GraphQLString,
+            description: "A user's fistName",
+        },
+        lastName: {
+            type: GraphQLString,
+            description: "A user's lastName",
+        },
         email: {
             type: GraphQLString,
             description: "A user's email."

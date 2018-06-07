@@ -6,9 +6,15 @@ import {
 import sendMail from '../../../../utils/mail';
 import InternalServerError from '../../../../utils/errors/InternalServerError';
 
-const addUser = {
+const registerUser = {
     type: UserType,
     args: {
+        firstName: {
+            type: GraphQLString
+        },
+        lastName: {
+            type: GraphQLString
+        },
         email: {
             type: new GraphQLNonNull(GraphQLString)
         },
@@ -22,7 +28,11 @@ const addUser = {
             type: GraphQLString,
         },
     },
-    resolve: async(parent, args, { mongo: { User } }) => {
+    resolve: async (parent, args, {
+        mongo: {
+            User
+        }
+    }) => {
         const user = await new User(args);
 
         // bcrypt password from args
@@ -31,6 +41,8 @@ const addUser = {
         // create session Token
         const sessionToken = await user.generateToken();
 
+        user.sessionToken = sessionToken;
+
         await user.save();
 
         try {
@@ -38,15 +50,14 @@ const addUser = {
                 to: user.email,
                 from: 'contact@raulratiu.me',
                 subject: 'Welcome to MyProject',
-                context:
-                    {
-                        templateName: '/register/',
-                        args: {
-                            email: user.email,
-                            title: 'Welcome',
-                        },
-
+                context: {
+                    templateName: '/register/',
+                    args: {
+                        email: user.email,
+                        title: 'Welcome',
                     },
+
+                },
             });
         } catch (e) {
             throw new InternalServerError({
@@ -54,11 +65,8 @@ const addUser = {
             });
         }
 
-        return {
-            user,
-            sessionToken
-        };
+        return user;
     }
 }
 
-export default addUser;
+export default registerUser;

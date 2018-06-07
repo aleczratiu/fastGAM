@@ -10,10 +10,10 @@ const createSessionToken = {
     type: UserType,
     args: {
         email: {
-            type: GraphQLNonNull(GraphQLString),
+            type: new GraphQLNonNull(GraphQLString),
         },
         password: {
-            type: GraphQLNonNull(GraphQLString)
+            type: new GraphQLNonNull(GraphQLString)
         }
     },
     resolve: async(parent, { email, password }, { mongo: { User } }) => {
@@ -36,6 +36,8 @@ const createSessionToken = {
         const sessionToken = await user.generateToken();
 
         user.sessionToken = sessionToken;
+
+        console.log('here is user details', user);
 
         return user;
     }

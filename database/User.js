@@ -1,9 +1,17 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { privateKey } from '../config';
+import {
+    privateKey
+} from '../config';
 
 const UserSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+    },
+    lastName: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
@@ -38,11 +46,10 @@ UserSchema.methods.generateToken = async function generateToken() {
     return jwt.sign({
         user: {
             id: this.id,
-            email: this.email,
-            createdAt: this.createdAt,
-            updatedAt: this.updatedAt
         }
-      }, privateKey);
+    }, privateKey, {
+        expiresIn: '1h'
+    });
 };
 
 UserSchema.methods.verifyToken = async function verifyToken(token) {
