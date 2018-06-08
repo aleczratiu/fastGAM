@@ -1,16 +1,14 @@
 import {
     GraphQLObjectType
 } from 'graphql';
-import registerUser from './Models/User/mutation/registerUser';
-import createSessionToken from './Models/User/mutation/createSessionToken';
+import userMutation from './Models/User/userMutations';
 
 const rootMutation = new GraphQLObjectType({
     name: 'RootMutation',
-    description: 'Here we import all mutations',
-    fields: {
-        registerUser,
-        createSessionToken
-    }
+    description: 'All mutations',
+    fields: Object.assign({},
+        userMutation,
+    ),
 })
 
 export default rootMutation;

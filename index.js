@@ -1,13 +1,20 @@
 import express from 'express';
 import expressGraphQL from 'express-graphql';
 import schema from './graphql/schema';
-import { addSchemaLevelResolveFunction } from 'graphql-tools';
+import {
+    addSchemaLevelResolveFunction
+} from 'graphql-tools';
 import mongoose from 'mongoose';
 import mongoModel from './database';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { checkAuth } from './utils';
-import { ALLOWED_PATH } from './config';
+import {
+    checkAuth,
+    authenticate,
+} from './utils';
+import {
+    ALLOWED_PATH
+} from './config';
 import path from 'path';
 
 const app = express();
@@ -25,9 +32,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 addSchemaLevelResolveFunction(schema, (root, args, context, info) => {
-    if (!context.loggedUser && !ALLOWED_PATH.CREATE_SESSION) {
-        throw new Error('non-auth');
-    }
+    checkAuth(info.path.key, context.loggedUser);
 });
 
 mongoose.Promise = global.Promise;
@@ -37,12 +42,12 @@ mongoose.connection
     .on('error', error => console.log('Error connecting to MongoLab:', error));
 
 app.use('/', expressGraphQL(req => ({
-    graphiql: true,
-    schema,
     context: {
         mongo: mongoModel,
-        loggedUser: checkAuth(req.headers.authorization)
+        loggedUser: authenticate(req.headers.authorization, mongoModel),
     },
+    graphiql: true,
+    schema,
 })));
 
 app.listen(port);

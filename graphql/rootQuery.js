@@ -1,12 +1,14 @@
 import {
     GraphQLObjectType
 } from 'graphql';
-import getUser from './Models/User/query/getUser';
+import userQuery from './Models/User/userQuery';
 
 const rootQuery = new GraphQLObjectType({
     name: 'RootQuery',
-    description: 'Here we import all queries',
-    fields: { getUser }
-})
+    description: 'All queries',
+    fields: Object.assign({},
+        userQuery
+    ),
+});
 
 export default rootQuery;

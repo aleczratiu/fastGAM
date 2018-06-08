@@ -36,10 +36,10 @@ const registerUser = {
         const user = await new User(args);
 
         // bcrypt password from args
-        user.password = await user.cryptPassword(args.password);
+        user.password = await user.encryptPassword(args.password);
 
         // create session Token
-        const sessionToken = await user.generateToken();
+        const sessionToken = await user.createSessionToken();
 
         user.sessionToken = sessionToken;
 

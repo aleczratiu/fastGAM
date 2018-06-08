@@ -16,28 +16,33 @@ const createSessionToken = {
             type: new GraphQLNonNull(GraphQLString)
         }
     },
-    resolve: async(parent, { email, password }, { mongo: { User } }) => {
-        const user = await User.findOne({ email });
-
-        console.log('user', user);
+    resolve: async (parent, {
+        email,
+        password
+    }, {
+        mongo: {
+            User
+        }
+    }) => {
+        const user = await User.findOne({
+            email
+        });
 
         if (!user) {
             throw new NotFoundError({
                 message: 'User not found',
             })
         };
-        
+
         if (!await user.checkPassword(password)) {
             throw new BadRequestError({
                 message: 'Invalid password',
             });
         };
 
-        const sessionToken = await user.generateToken();
+        const sessionToken = await user.createSessionToken();
 
         user.sessionToken = sessionToken;
-
-        console.log('here is user details', user);
 
         return user;
     }

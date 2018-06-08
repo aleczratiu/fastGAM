@@ -9,10 +9,10 @@ const User = {
     type: UserType,
     args: {
         email: {
-            type: GraphQLNonNull(GraphQLString)
+            type: new GraphQLNonNull(GraphQLString)
         },
         password: {
-            type: GraphQLNonNull(GraphQLString)
+            type: new GraphQLNonNull(GraphQLString)
         },
     },
     resolve: async (parent, args, { mongo: { User } }) => {

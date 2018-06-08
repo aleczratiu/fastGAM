@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 // define method bcrypt password
-UserSchema.methods.cryptPassword = async function cryptPassword(password) {
+UserSchema.methods.encryptPassword = async function encryptPassword(password) {
     return bcrypt.hashSync(password, 10);
 }
 
@@ -42,7 +42,7 @@ UserSchema.methods.checkPassword = async function checkPassword(password) {
 };
 
 //create user token with jsonwebtoken
-UserSchema.methods.generateToken = async function generateToken() {
+UserSchema.methods.createSessionToken = async function createSessionToken() {
     return jwt.sign({
         user: {
             id: this.id,
@@ -52,7 +52,7 @@ UserSchema.methods.generateToken = async function generateToken() {
     });
 };
 
-UserSchema.methods.verifyToken = async function verifyToken(token) {
+UserSchema.statics.verifyToken = async function verifyToken(token) {
     try {
         return await jwt.verify(token, privateKey);
     } catch (e) {
