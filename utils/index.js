@@ -2,11 +2,11 @@ import {
     privateKey
 } from "../config";
 import jwt from 'jsonwebtoken';
-import NotFoundError from "./errors/NotFoundError";
+import NotFoundError from "../universal/errors/NotFoundError";
 import {
     PUBLIC_OPERATIONS
 } from "../universal/constants";
-import UnauthorizedError from "./errors/UnauthorizedError";
+import UnauthorizedError from "../universal/errors/UnauthorizedError";
 
 export const checkAuth = (operationName, loggedUser) => {
     if (!PUBLIC_OPERATIONS.includes(operationName) && !loggedUser) {

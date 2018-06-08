@@ -3,8 +3,8 @@ import {
     GraphQLNonNull
 } from 'graphql';
 import UserType from '../UserType';
-import UnauthorizedError from '../../../../utils/errors/UnauthorizedError';
-import NotFoundError from '../../../../utils/errors/NotFoundError';
+import UnauthorizedError from '../../../../universal/errors/UnauthorizedError';
+import NotFoundError from '../../../../universal/errors/NotFoundError';
 
 const getUserBySessionToken = {
     type: UserType,

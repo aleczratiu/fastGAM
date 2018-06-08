@@ -3,7 +3,7 @@ import {
     GraphQLNonNull
 } from 'graphql';
 import UserType from '../UserType';
-import NotFoundError from '../../../../utils/errors/NotFoundError';
+import NotFoundError from '../../../../universal/errors/NotFoundError';
 
 const User = {
     type: UserType,

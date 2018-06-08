@@ -4,7 +4,7 @@ import {
     GraphQLNonNull,
 } from 'graphql';
 import sendMail from '../../../../utils/mail';
-import InternalServerError from '../../../../utils/errors/InternalServerError';
+import InternalServerError from '../../../../universal/errors/InternalServerError';
 
 const registerUser = {
     type: UserType,

@@ -3,8 +3,8 @@ import {
     GraphQLNonNull,
     GraphQLString
 } from 'graphql';
-import NotFoundError from '../../../../utils/errors/NotFoundError';
-import BadRequestError from '../../../../utils/errors/BadRequestError';
+import NotFoundError from '../../../../universal/errors/NotFoundError';
+import BadRequestError from '../../../../universal/errors/BadRequestError';
 
 const createSessionToken = {
     type: UserType,

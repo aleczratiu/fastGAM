@@ -1,7 +1,7 @@
 import Mailgun from 'mailgun-js';
 import Email from 'email-templates';
 import path from 'path';
-import BadRequestError from '../errors/BadRequestError';
+import BadRequestError from '../../universal/errors/BadRequestError';
 import {
     mailgunKeys
 } from '../../config';
